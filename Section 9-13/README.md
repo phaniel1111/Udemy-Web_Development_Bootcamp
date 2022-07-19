@@ -1,1 +1,1 @@
-Section 9: Introduction to Javascript ES6
+Learning JavaScript through those section

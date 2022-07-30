@@ -1,0 +1,229 @@
+// This is a generated Motoko binding.
+// Please use `import service "ic:canister_id"` instead to call canisters on the IC if possible.
+
+module {
+  public type AirDropResponse = {
+    #ok : CanvasIdentity;
+    #err : { #AlreadyCliam; #NotInAirDropListOrAlreadyCliam; #NotEnoughToMint };
+  };
+  public type AirDropStruct = { user : Principal; remainTimes : Nat };
+  public type AttrStru = { attrIds : [Nat] };
+  public type BuyRequest = {
+    tokenIndex : TokenIndex;
+    price : Nat;
+    marketFeeRatio : Nat;
+    feeTo : Principal;
+  };
+  public type BuyResponse = {
+    #ok : TokenIndex;
+    #err : {
+      #NotAllowBuySelf;
+      #InsufficientBalance;
+      #AlreadyTransferToOther;
+      #NotFoundIndex;
+      #Unauthorized;
+      #Other;
+      #LessThanFee;
+      #AllowedInsufficientBalance;
+    };
+  };
+  public type CanvasIdentity = {
+    photoLink : ?Text;
+    videoLink : ?Text;
+    index : TokenIndex;
+  };
+  public type Component = { id : Nat; attribute : ComponentAttribute };
+  public type ComponentAttribute = { name : Text; traitType : Text };
+  public type GetListingsRes = { listings : Listings__1; rarityScore : Float };
+  public type GetSoldListingsRes = {
+    listings : SoldListings;
+    rarityScore : Float;
+  };
+  public type GetTokenResponse = {
+    #ok : TokenDetails;
+    #err : { #NotFoundIndex };
+  };
+  public type ListRequest = { tokenIndex : TokenIndex; price : Nat };
+  public type ListResponse = {
+    #ok : TokenIndex;
+    #err : {
+      #NotApprove;
+      #NotNFT;
+      #NotFoundIndex;
+      #SamePrice;
+      #NotOwner;
+      #Other;
+      #MarketNotOpen;
+      #AlreadyList;
+    };
+  };
+  public type Listings = {
+    tokenIndex : TokenIndex;
+    time : Time;
+    seller : Principal;
+    price : Nat;
+  };
+  public type Listings__1 = {
+    tokenIndex : TokenIndex;
+    time : Time;
+    seller : Principal;
+    price : Nat;
+  };
+  public type MintResponse = {
+    #ok : [CanvasIdentity];
+    #err : {
+      #NotOpen;
+      #NotWhiteListOrMaximum;
+      #SoldOut;
+      #InsufficientBalance;
+      #Unauthorized;
+      #Other;
+      #NotEnoughToMint;
+      #LessThanFee;
+      #AllowedInsufficientBalance;
+    };
+  };
+  public type NFTLinkInfo = {
+    id : TokenIndex;
+    photoLink : Text;
+    videoLink : Text;
+  };
+  public type NFTMetaData = { id : Nat; attrIds : [Nat] };
+  public type NFTStoreInfo = {
+    photoLink : ?Text;
+    videoLink : ?Text;
+    index : TokenIndex;
+  };
+  public type OpenBoxResponse = {
+    #ok : CanvasIdentity;
+    #err : { #NotOpen; #NotOwner; #AlreadyOpen };
+  };
+  public type PreMint = { user : Principal; index : Nat };
+  public type SoldListings = { lastPrice : Nat; time : Time; account : Nat };
+  public type Time = Int;
+  public type TokenDetails = {
+    id : Nat;
+    attrArr : [ComponentAttribute];
+    rarityScore : Float;
+  };
+  public type TokenIndex = Nat;
+  public type TokenIndex__1 = Nat;
+  public type TransferResponse = {
+    #ok : TokenIndex;
+    #err : {
+      #ListOnMarketPlace;
+      #NotAllowTransferToSelf;
+      #NotOwnerOrNotApprove;
+      #Other;
+    };
+  };
+  public type Self = actor {
+    approve : shared (Principal, TokenIndex__1) -> async Bool;
+    bBlindBoxOpen : shared query TokenIndex__1 -> async Bool;
+    balanceOf : shared query Principal -> async Nat;
+    batchTransferFrom : shared (
+        Principal,
+        [Principal],
+        [TokenIndex__1],
+      ) -> async TransferResponse;
+    buyNow : shared BuyRequest -> async BuyResponse;
+    cancelFavorite : shared TokenIndex__1 -> async Bool;
+    cancelList : shared TokenIndex__1 -> async ListResponse;
+    checkIfWhiteList : shared query Principal -> async Bool;
+    clearAirDrop : shared () -> async Bool;
+    clearPrice : shared () -> async Bool;
+    clearWhiteList : shared () -> async Bool;
+    cliamAirdrop : shared () -> async AirDropResponse;
+    deleteAirDrop : shared Principal -> async Bool;
+    getAirDropLeft : shared query () -> async [(Principal, Nat)];
+    getAirDropRemain : shared query Principal -> async Nat;
+    getAirDropStartTime : shared query () -> async Time;
+    getAll : shared query () -> async [(TokenIndex__1, Principal)];
+    getAllComponent : shared query () -> async [(TokenIndex__1, Component)];
+    getAllHistoryStorageCanisterId : shared query () -> async [Principal];
+    getAllNFT : shared query Principal -> async [(TokenIndex__1, Principal)];
+    getAllNftCanister : shared () -> async [Principal];
+    getAllNftLinkInfo : shared query () -> async [(TokenIndex__1, NFTLinkInfo)];
+    getAllTokens : shared () -> async [(TokenIndex__1, NFTMetaData)];
+    getAllUserNFT : shared query Principal -> async [NFTStoreInfo];
+    getApproved : shared query TokenIndex__1 -> async ?Principal;
+    getAvailableMint : shared query () -> async [(TokenIndex__1, Bool)];
+    getBlindBoxLink : shared query () -> async (Text, Text);
+    getBlindTime : shared query () -> async (Time, Time);
+    getCirculation : shared query () -> async Nat;
+    getComponentById : shared query TokenIndex__1 -> async ?Component;
+    getComponentsSize : shared query () -> async Nat;
+    getCycles : shared query () -> async Nat;
+    getLinkInfoByIndex : shared query TokenIndex__1 -> async (?Text, ?Text);
+    getLinkInfoByIndexArr : shared query [TokenIndex__1] -> async [
+        (?Text, ?Text)
+      ];
+    getListings : shared query () -> async [(NFTStoreInfo, GetListingsRes)];
+    getListingsByAttr : shared query [AttrStru] -> async [
+        (NFTStoreInfo, Listings)
+      ];
+    getMaxMarketFeeRatio : shared query () -> async Nat;
+    getMintAccount : shared query () -> async Nat;
+    getMintPrice : shared query () -> async [(Nat, Nat)];
+    getNftHoldInfo : shared query () -> async [(Principal, Nat)];
+    getNftLinkInfo : shared query TokenIndex__1 -> async ?NFTLinkInfo;
+    getNftStoreCIDByIndex : shared query TokenIndex__1 -> async Principal;
+    getOpenTime : shared query () -> async (Time, Time);
+    getOwnerSize : shared query () -> async Nat;
+    getRegistry : shared query () -> async [(Principal, [NFTStoreInfo])];
+    getRoyaltyFeeRatio : shared query () -> async Nat;
+    getRoyaltyFeeTo : shared query () -> async Principal;
+    getSaleInfo : shared query () -> async (Nat, Nat);
+    getSoldListings : shared query () -> async [
+        (NFTStoreInfo, GetSoldListingsRes)
+      ];
+    getStorageCanisterId : shared query () -> async ?Principal;
+    getSuppy : shared query () -> async Nat;
+    getTokenById : shared query Nat -> async GetTokenResponse;
+    getWICPCanisterId : shared query () -> async Principal;
+    getWhiteList : shared query () -> async [(Principal, Nat)];
+    getWhiteListPrice : shared query () -> async [(Nat, Nat)];
+    getbOpenMarket : shared query () -> async Bool;
+    isApprovedForAll : shared query (Principal, Principal) -> async Bool;
+    isList : shared query TokenIndex__1 -> async ?Listings;
+    list : shared ListRequest -> async ListResponse;
+    mint : shared Nat -> async MintResponse;
+    newStorageCanister : shared Principal -> async Bool;
+    openBlindBox : shared TokenIndex__1 -> async OpenBoxResponse;
+    ownerOf : shared query TokenIndex__1 -> async ?Principal;
+    preMint : shared [PreMint] -> async Nat;
+    proAvailableMint : shared () -> async Bool;
+    setAirDropStartTime : shared Time -> async Bool;
+    setApprovalForAll : shared (Principal, Bool) -> async Bool;
+    setBlindBoxLink : shared NFTLinkInfo -> async Bool;
+    setCapacity : shared Nat -> async Bool;
+    setFavorite : shared TokenIndex__1 -> async Bool;
+    setMaxMarketFeeRatio : shared Nat -> async Bool;
+    setMintAccount : shared Nat -> async Bool;
+    setMintFeeRatio : shared Nat -> async Bool;
+    setMintPrice : shared [(Nat, Nat)] -> async Bool;
+    setNftCanister : shared [Principal] -> async Bool;
+    setNftLinkInfo : shared [NFTLinkInfo] -> async Bool;
+    setOwner : shared Principal -> async Bool;
+    setRoyaltyFeeTo : shared Principal -> async Bool;
+    setRoyaltyfeeRatio : shared Nat -> async Bool;
+    setStorageCanisterId : shared ?Principal -> async Bool;
+    setSuppy : shared Nat -> async Bool;
+    setTime : shared [Time] -> async Bool;
+    setWICPCanisterId : shared Principal -> async Bool;
+    setWhiteListPrice : shared [(Nat, Nat)] -> async Bool;
+    setbOpenMarket : shared Bool -> async Bool;
+    transferFrom : shared (
+        Principal,
+        Principal,
+        TokenIndex__1,
+      ) -> async TransferResponse;
+    updateList : shared ListRequest -> async ListResponse;
+    uploadAirDropList : shared [AirDropStruct] -> async Bool;
+    uploadComponents : shared [Component] -> async Bool;
+    uploadNftMetaData : shared [NFTMetaData] -> async Bool;
+    uploadWhiteList : shared [Principal] -> async Bool;
+    wallet_receive : shared () -> async Nat;
+    whiteListMint : shared Nat -> async MintResponse;
+  }
+}

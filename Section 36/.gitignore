@@ -2,6 +2,7 @@
 .vscode/
 .idea/
 **/*~
+dfx-command.md
 
 # Mac OSX temporary files
 .DS_Store

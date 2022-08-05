@@ -4,8 +4,8 @@ import Debug "mo:base/Debug";
 import Iter "mo:base/Iter";
 
 actor Token{
-    let owner : Principal = Principal.fromText("jwonl-vmhgm-ow4yc-yezzi-4u2jr-hvsio-clg7c-s3j3q-abrnx-kgizz-pae");
-    let totalSupply : Nat = 1000000000;
+    let owner : Principal = Principal.fromText("lzdrq-kwimz-5c33j-kzcer-xwim6-e6bef-cld4o-os7jq-ocllv-6b6ze-oae");
+    let totalSupply : Nat = 1000000;
     let symbol : Text = "PHA";
 
     private stable var balanceEntries: [(Principal, Nat)] = [];
@@ -32,7 +32,7 @@ actor Token{
     public shared (msg) func faucet() : async Text {
         if(balances.get(msg.caller) == null)
         {
-            let amount = 10000;
+            let amount = 1000;
             let result = await transfer(msg.caller,amount);
         return result;
         } else{

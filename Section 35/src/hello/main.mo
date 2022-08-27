@@ -4,7 +4,7 @@ import Float "mo:base/Float";
 
 
 
-tor DBank{
+ator DBank{
 
   Debug.print("Kiet");
 
